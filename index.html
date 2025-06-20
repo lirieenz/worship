@@ -1,0 +1,25 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Piano Songs</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <h1>Piano Songs</h1>
+  <div class="controls">
+  <button onclick="toggleScroll()">Toggle Auto Scroll</button>
+  <label style="display: flex; align-items: center; gap: 0.5rem;">
+    <span>Scroll Speed</span>
+    <input type="range" min="10" max="100" value="50" id="scrollSpeed" />
+  </label>
+  <input type="file" accept=".txt" onchange="importSong(event)" />
+</div>
+
+  <div id="songs"></div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
