@@ -14,12 +14,12 @@ function transposeChord(chord, steps) {
 }
 
 function getTransposed(raw, transpose) {
-  const regex = /\b([A-G][#b]?m?7?)\b/g; // Matches G, D, Em, A7, etc.
+  const regex = /\b([A-G][#b]?m?7?)\b/g;
   const lines = raw.split('\n');
   return lines
     .map(line => {
       if (line.startsWith('[') && line.endsWith(']')) {
-        return line; // Leave section titles like [Verse 1]
+        return line;
       }
       return line.replace(regex, (match) => `<b>${transposeChord(match, transpose)}</b>`);
     })
@@ -30,7 +30,6 @@ function renderSongs() {
   const container = document.getElementById("songs");
   container.innerHTML = "";
 
-  // Save current state to localStorage
   localStorage.setItem("songsData", JSON.stringify(songsData));
   localStorage.setItem("transposeValues", JSON.stringify(transposeValues));
 
@@ -97,9 +96,9 @@ function importSong(event) {
     const id = `imported_${Date.now()}`;
     const title = file.name.replace(/\\.txt$/, '');
     songsData.push({ id, title, raw });
-    transposeValues[id] = 0; // Init transpose value
+    transposeValues[id] = 0;
     renderSongs();
-    event.target.value = ''; // Reset file input so you can re-upload the same file
+    event.target.value = '';
   };
   reader.onerror = function() {
     alert("Failed to read the file.");
@@ -109,13 +108,11 @@ function importSong(event) {
 }
 
 function deleteSong(id) {
-  // Remove from songsData
   const index = songsData.findIndex(song => song.id === id);
   if (index !== -1) {
     songsData.splice(index, 1);
   }
 
-  // Remove related data
   delete transposeValues[id];
   localStorage.removeItem(`fav_${id}`);
   localStorage.setItem("songsData", JSON.stringify(songsData));
@@ -128,7 +125,6 @@ function transposeSong(id, step) {
   renderSongs();
 }
 
-// Load from localStorage
 const savedSongs = localStorage.getItem("songsData");
 const savedTranspose = localStorage.getItem("transposeValues");
 
