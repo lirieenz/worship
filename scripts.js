@@ -41,7 +41,10 @@ function renderSongs() {
         ${song.title} 
         <button onclick="toggleFavorite('${song.id}')">${fav ? '★' : '☆'}</button>
         <button onclick="deleteSong('${song.id}')">🗑️</button>
+        <button onclick="moveSong('${song.id}', -1)">↑</button>
+        <button onclick="moveSong('${song.id}', 1)">↓</button>
       </h2>
+
       <div class="controls">
         <button onclick="transposeSong('${song.id}', -1)">Transpose -</button>
         <span style="margin: 0 10px;">Key: ${transpose >= 0 ? '+' + transpose : transpose}</span>
@@ -142,3 +145,17 @@ document.getElementById("scrollSpeed").addEventListener("input", () => {
     }, speed);
   }
 });
+
+function moveSong(id, direction) {
+  const index = songsData.findIndex(song => song.id === id);
+  if (index === -1) return;
+
+  const newIndex = index + direction;
+  if (newIndex < 0 || newIndex >= songsData.length) return;
+
+  // Swap songs
+  [songsData[index], songsData[newIndex]] = [songsData[newIndex], songsData[index]];
+
+  // Re-render and re-save
+  renderSongs();
+};
